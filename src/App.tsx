@@ -7,6 +7,24 @@ function App() {
   // 현재 몇번 사진인지(초기값은 파일명 1.jpeg)
   const [sceneNumber, setSceneNumber] = useState(1);
 
+  // i태그의 form속성이 "left"이거나, "right"일 때의 핸들러 함수
+  const moveScroll = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    // 왼쪽을 클릭한 경우
+    if (e.currentTarget.attributes[1].value === "left") {
+      window.scrollBy({
+        left: -window.innerWidth,
+        behavior: "smooth", // 부드러운 스크롤 효과
+      });
+    }
+    // 오른쪽을 클릭한 경우
+    else if (e.currentTarget.attributes[1].value === "right") {
+      window.scrollBy({
+        left: window.innerWidth,
+        behavior: "smooth", // 부드러운 스크롤 효과
+      });
+    }
+  };
+
   // 파일명 번호에서 1을 뺀 index번째의 scene
   const currentScene = sceneData.scene[sceneNumber - 1];
 
@@ -25,6 +43,7 @@ function App() {
               form={ele.form}
               x={ele.x}
               y={ele.y}
+              onClick={() => setSceneNumber(ele.goto)}
             ></Hitzone>
           );
         } else if (ele.form === "left") {
@@ -35,6 +54,7 @@ function App() {
               form={ele.form}
               x={ele.x}
               y={ele.y}
+              onClick={(e) => moveScroll(e)}
             ></Hitzone>
           );
         } else {
@@ -45,6 +65,7 @@ function App() {
               form={ele.form}
               x={ele.x}
               y={ele.y}
+              onClick={(e) => moveScroll(e)}
             ></Hitzone>
           );
         }
